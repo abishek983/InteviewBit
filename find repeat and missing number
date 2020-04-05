@@ -1,0 +1,36 @@
+//https://www.interviewbit.com/problems/repeat-and-missing-number-array/
+
+vector<int> Solution::repeatedNumber(const vector<int> &A) {
+    int n = A.size();
+    int val = 0;
+    for(int i=0;i<n;i++)
+        val ^= A[i];
+    
+    for(int i=1;i<=n;i++)
+        val ^= i;
+    
+    int setBit = val & ~(val-1);
+    int x=0,y=0;
+    for(int i=0;i<n;i++){
+        if(A[i] & setBit)
+            x ^= A[i];
+        else
+            y ^= A[i];
+    }
+    for(int i=1;i<=n;i++){
+        if(i & setBit)
+            x ^= i;
+        else
+            y ^= i;
+    }
+    vector<int> ans ; 
+    for(int i=0;i<n;i++){
+        if(x==A[i]){
+            ans.push_back(x); ans.push_back(y); break;
+        }
+        if(y==A[i]){
+            ans.push_back(y); ans.push_back(x); break;
+        }
+    }
+    return ans;
+}
