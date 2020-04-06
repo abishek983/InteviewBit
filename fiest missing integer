@@ -2,6 +2,7 @@
 //Try to make use of the size of the array as the first missing positive number
 //will always be in the ranges of 1 to size of the array
 
+
 int Solution::firstMissingPositive(vector<int> &A) {
     int n = A.size();
     for(int i=0;i<n;i++){
