@@ -1,0 +1,57 @@
+//https://www.interviewbit.com/problems/merge-intervals/
+
+vector<Interval> Solution::insert(vector<Interval> &intervals, Interval newInterval) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    vector<Interval> ans; int newStart=INT_MAX,newEnd=INT_MIN,flag=0;
+    int n = intervals.size()-1;
+    if(intervals.size()<=0){
+        ans.push_back(newInterval);
+        return ans;
+    }
+    
+    if(intervals[0].start>newInterval.end)
+        ans.push_back(newInterval) ,flag= 1;
+    
+    for(int i=0;i<intervals.size();i++){
+        int start = intervals[i].start;
+        int end = intervals[i].end;
+        if(newInterval.start > end || newInterval.end < start){
+            if(newStart != INT_MAX && newEnd!= INT_MIN){
+                Interval temp; temp.start = newStart;
+                temp.end = newEnd;
+                ans.push_back(temp);
+                newStart=INT_MAX,newEnd=INT_MIN;
+                flag = 1;
+            }
+            if(!flag && start>newInterval.end){
+                ans.push_back(newInterval); flag = 1;
+            }
+            ans.push_back(intervals[i]);
+        }
+        else {
+            if(newInterval.start<start)
+                newStart = min(newStart,newInterval.start);
+            else
+                newStart = min(newStart,start);
+            if(newInterval.end>end)
+                newEnd = max(newEnd,newInterval.end);
+            else
+                newEnd = max(newEnd,end);
+            }
+        
+    }
+    //cout << newStart << " " << newEnd << endl;
+    
+    if(!flag && newStart != INT_MAX && newEnd!= INT_MIN){
+                Interval temp; temp.start = newStart;
+                temp.end = newEnd;
+                ans.push_back(temp);
+                newStart=INT_MAX,newEnd=INT_MIN;
+    }
+    if(intervals[n].end < newInterval.start)
+        ans.push_back(newInterval);
+    return ans;
+}
