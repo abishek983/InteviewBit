@@ -1,0 +1,50 @@
+//https://www.interviewbit.com/problems/merge-overlapping-intervals/
+
+///**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+bool cmp(Interval a,Interval b){
+    if(a.start<b.start)
+        return true;
+    if(a.start==b.start)
+        return a.end>b.end;
+    return false;
+} 
+ 
+vector<Interval> Solution::merge(vector<Interval> &A) {
+    vector<Interval> ans;
+    if(A.size()==0){
+        return ans;
+    }
+    sort(A.begin(),A.end(),cmp);
+    int l = A[0].start , r = A[0].end;
+    for(int i=1;i<A.size();i++){
+        int s = A[i].start , e = A[i].end;
+        if((s>=l && s<=r) || (e>=l && e<=r)){
+            l = min(l,s);
+            r = max(r,e); 
+        }
+        else{
+            //cout << s << " " << e << endl;
+            
+            if(l!=-1 && r!=-1){
+                Interval temp; 
+                temp.start = l , temp.end = r;
+                ans.push_back(temp);
+                l = s , r = e;
+            }
+        }
+    }
+    Interval temp; 
+    temp.start = l , temp.end = r;
+    ans.push_back(temp);
+    l = -1 , r = -1;
+
+    return ans;
+}
