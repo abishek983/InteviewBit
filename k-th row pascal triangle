@@ -1,0 +1,22 @@
+// https://www.interviewbit.com/problems/kth-row-of-pascals-triangle/
+
+//Time compelxity for this approach is (A*A) with a space complexity of O(A).
+//A better approach with mathematical formula can solve it in O(A).
+
+vector<int> Solution::getRow(int A) {
+    vector<int> ans(A+1);
+    
+    for(int i=0;i<=A;i++){
+        int temp=1;
+        for(int j=0;j<=i;j++){
+            if(j==0 || i==j){
+                ans[i]= 1 ;
+                continue;
+            }
+            int temp1 = ans[j];
+            ans[j] = ans[j] + temp;
+            temp = temp1;
+        }
+    }
+    return ans;
+}
