@@ -1,0 +1,26 @@
+//https://www.interviewbit.com/problems/hotel-bookings-possible/
+
+// Time complexity :- O(nlogn)
+// Auxiallary space of O(2*n)
+
+
+bool Solution::hotel(vector<int> &arrive, vector<int> &depart, int K) {
+    int n = arrive.size();
+    vector<pair<int,int>> temp;
+    for(int i=0;i<n;i++){
+        temp.push_back({arrive[i],1});
+        temp.push_back({depart[i],0});
+    }
+    sort(temp.begin(),temp.end());
+    int count = 0, maxn =INT_MIN;
+    for(int i=0;i<2*n;i++){
+        //cout << temp[i].first << " ";
+        if(temp[i].second){
+            count++;
+            maxn =max(maxn,count);
+        }
+        else count--;
+    }
+    //cout << maxn <<  endl;
+    return (K>=maxn);
+}
