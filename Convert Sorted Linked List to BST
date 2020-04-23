@@ -1,0 +1,47 @@
+// https://www.interviewbit.com/problems/convert-sorted-list-to-binary-search-tree/
+// Time complexity :- O(nlogn)
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* find_mid(ListNode* root){
+    ListNode* slow = root;
+    ListNode* fast = root;
+    ListNode* prev = NULL ;
+    while(fast && fast->next){
+        prev =slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    //cout << slow->val << endl;
+    if(prev)
+        prev->next = NULL;
+    return slow;
+}
+ 
+TreeNode* Solution::sortedListToBST(ListNode* A) {
+    if(A==NULL)
+        return NULL;
+    ListNode* mid = find_mid(A);
+    //cout << mid->val << endl;
+    TreeNode* root = new TreeNode(mid->val);
+    if(root->val==A->val)
+        return root;
+    root->left = sortedListToBST(A);
+    root->right = sortedListToBST(mid->next);
+    return root;
+}
