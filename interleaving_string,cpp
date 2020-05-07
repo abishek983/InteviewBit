@@ -1,0 +1,33 @@
+// https://www.interviewbit.com/problems/interleaving-strings/
+
+//the question description is not very much clear
+// interleave will mean that we need make a string 'c' from strings 'a' and 'b'
+// where all the elements will be exhausted completely
+// none of the strings could have remainig element
+
+// Time complexity for the given algorithm is O(len(a)*len(b)*log n) 
+// log factor is due to the use of map which could be avoided if we use a 2-d array instead
+map<string,int> mp;
+
+int isInterLeaveUtil(string a,string b,string c){
+    //cout << a << " " << b << " " << c << endl;
+    string s = a + " " + b + " " + c;
+    if(a.length()+b.length()+c.length()==0)
+        return 1;
+    
+    if(c.length()==0)
+        return 0;
+        
+    if(mp.find(s)!=mp.end())
+        return mp[s];
+        
+    return mp[s] = (a[0]==c[0] && isInterLeaveUtil(a.substr(1),b,c.substr(1))) ||
+                   (b[0]==c[0] && isInterLeaveUtil(a,b.substr(1),c.substr(1)));
+            
+    
+}
+
+int Solution::isInterleave(string A, string B, string C) {
+    int ans = isInterLeaveUtil(A,B,C);
+    return ans;
+}
